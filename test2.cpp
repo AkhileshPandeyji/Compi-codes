@@ -5,52 +5,59 @@
 
 using namespace std;
 
-string sortAndDistinct(string s){
-sort(s.begin(),s.end());
-string res;
-int i=0;
-for(i=0;i<s.length()-1;i++){
-    if(s.at(i)!=s.at(i+1)){
-      res.push_back(s.at(i));
+bool isPalindrome(string s){
+    bool flag = false;
+   for(int i=0,j=s.length()-1;i<s.length()/2;i++,j--){
+       if(s[i]==s[j]){
+           flag = true;
+       }
+       else{
+           flag = false;
+           break;
+       }
+   }
+   return flag;
+}
+
+
+int theLoveLetterMystery(string s) {
+int count=0;
+if(isPalindrome(s)){
+    return 0;
+}
+for(int i=0,j=s.length()-1;i<s.length()/2;i++,j--){
+    if(s.at(i) != s.at(j)){
+        if(s[i]>97)
+        s[i]-=1;
+        cout<<s<<endl;
+        if(isPalindrome(s)){
+            count++;
+            break;
+        }
+        else{
+            if(s[i]>97)
+            s[i]+=1;
+            if(s[j]>97)
+            s[j]-=1;
+            cout<<s<<endl;
+            if(isPalindrome(s)){
+                count++;
+                break;
+            }
+        }
+
     }
 }
-res.push_back(s.at(i));
-return res;
+return count;
 }
-
-string intersect(string s1,string s2){
-string s3;
-set_intersection(s1.begin(),s1.end(),s2.begin(),s2.end(),back_inserter(s3));
-return s3;
-}
-
-int gemstones(vector<string> arr) {
-string str1;
-string str2;
-str1=arr[0];
-for(int i=0;i<arr.size()-1;i++){
-    str2 = arr[i+1];
-    str1 = sortAndDistinct(str1);
-    str2 = sortAndDistinct(str2);
-    str1 = intersect(str1,str2);
-    if(str1.length()==0){
-        break;
-    }
-}
-return str1.length();
-}
-
-
 int main(){
-string s;
 int n;
-vector<string> v;
 cin>>n;
 for(int i=0;i<n;i++){
-    cin>>s;
-    v.push_back(s);
-}
-int res = gemstones(v);
+string input;
+cin>>input;
+int res = theLoveLetterMystery(input);
 cout<<res<<endl;
+}
 return 0;
 }

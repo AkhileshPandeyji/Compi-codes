@@ -1,86 +1,65 @@
 #include<iostream>
 #include<string>
-#include<cmath>
-#include<algorithm>
+#include<vector>
+#include<math.h>
+
 
 using namespace std;
 
-bool check(vector<int> v,vector<int>counts){
+vector<int> circularArrayRotation(vector<int> a, int k, vector<int> queries) {
+vector<int> rotatedArr(a.size());
+vector<int> queriedVals;
 
-bool flag=false;
-int c[] = {1,1,1,1,1,1,1,1,1,1};
+int truerot = k;
+int n = a.size();
 
-for(int i=0;i<v.size();i++){
-    cout<<v[i]<<":";
+if(k>n)
+k=k%n;
+
+for(int i=k-1;i>=0;i--){
+    rotatedArr[i]=a[a.size()-1];
+    a.pop_back();
 }
-cout<<endl;
-for(int i=0;i<counts.size();i++){
-    cout<<counts[i]<<":";
-}
-cout<<endl;
+cout<<a.size()<<endl;
 
-
-for(int i=0;i<counts.size();i++){
-    if(counts[i]>=c[i]){
-        flag=true;
-    }
-    else{
-        flag=false;
-        return flag;
-    }
+for(int i=0;i<n-k;i++){
+    rotatedArr[i+k]=a[i];
 }
 
-return flag;
+for(int i=0;i<queries.size();i++){
+    queriedVals.push_back(rotatedArr[queries[i]]);
+}
+return queriedVals;
 }
 
-string hackerrankInString(string s) {
-char ch[]= {'h','a','c','k','e','r','r','a','n','k'};
 
-vector<int> p;
-vector<int>counts;
-int count=0;
-int n=10;
-int pos=INT_MAX;
-
-
-bool flag=false;
-
-for(int i=0;i<n;i++){
- count=0;
- pos=INT_MAX;
- for(int j=0;j<s.length();j++){
-    if(ch[i]==s.at(j)){
-        count++;
-        pos=j;
-    }
-
- }
- if(pos==-1 || count==0){
-    return string("NO");
- }
- counts.push_back(count);
- p.push_back(pos);
-}
-flag = check(p,counts);
-
-if(flag){
-    string str("YES");
-    return str;
-}
-else{
-    string str("NO");
-    return str;
-}
-}
+// 7 584440269 1
 
 int main(){
 
-string input;
-string result;
+int n,r,qu;
+cin>>n;
+cin>>r;
+cin>>qu;
 
-getline(cin,input);
-result=hackerrankInString(input);
-cout<<result<<endl;
+int input;
+vector<int> arr;
+vector<int> q;
+
+for(int i=0;i<n;i++){
+  cin>>input;
+  arr.push_back(input);
+}
+
+for(int i=0;i<qu;i++){
+  cin>>input;
+  q.push_back(input);
+}
+vector<int> res = circularArrayRotation(arr,r,q);
+for(int i=0;i<res.size();i++){
+  cout<<res[i]<<endl;
+}
 
 return 0;
+
 }
